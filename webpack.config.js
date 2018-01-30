@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 
-
 const ROOT_PATH = path.resolve(__dirname);
 const DIST_PATH = path.resolve(ROOT_PATH, './dist');
 
@@ -17,6 +16,7 @@ module.exports = {
         extensions: ['.js', '.vue'],
         alias: {
             components: path.join(ROOT_PATH, './src/components'),
+            'vue$': 'vue/dist/vue.esm.js',
         }
     },
     module: {
@@ -46,7 +46,7 @@ if (process.env.NODE_ENV === 'production') {
     module.exports.plugins = (module.exports.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: '"production"'
+                NODE_ENV: JSON.stringify('production')
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
