@@ -1,6 +1,6 @@
 # Subtitle Player
 
-[View Online](https://thissentenceiswrong.github.io/subtitle-player-Vue)
+[View Online](https://thissentenceiswrong.github.io/vue-subtitle-player/)
 
 ### Todo
 1. Make the following sections more robust against unexpected input
