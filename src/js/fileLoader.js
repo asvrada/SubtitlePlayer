@@ -1,7 +1,0 @@
-function LoadSRT() {
-    
-}
-
-function LoadLRC() {
-    
-}
