@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import {FileLoader} from '../FileLoader';
+    import {loadFile} from '../FileLoader';
 
     export default {
         name: "FileUpload",
@@ -17,8 +17,9 @@
                     throw "Wrong number of files";
                 }
 
-                const fileLoader = new FileLoader(files[0]);
-                console.log("End");
+                loadFile(files[0]).then(function (data) {
+                    // todo
+                });
             }
         }
     };

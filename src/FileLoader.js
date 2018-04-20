@@ -1,56 +1,66 @@
 import {sprintf} from "sprintf-js";
 
-export class FileLoader {
-    /**
-     *
-     * @param {File} file
-     */
-    constructor(file) {
-        // Init variables, all class's members must be initilzed here
-        this.fileReader = null;
-        this.fileExt = null;
-        this.supportedExts = ["srt"];
+/**
+ * Main Entry for loading files
+ * @param {File} file
+ */
+function loadFile(file) {
+    const supportedExts = ["srt", "txt"];
+    const loaders = {
+        "srt": loadExtSRT,
+        "txt": loadExtTxt
+    };
 
-        this.loaders = {
-            "srt": this.loadExtSRT
-        };
+    let fileExt = null;
 
-        // alias for this
-        const self = this;
+    // get its extension, file.name
+    try {
+        let arrayFileName = file.name.split(".");
+        fileExt = arrayFileName[arrayFileName.length - 1].toLowerCase();
+    } catch (e) {
+        throw "Illegal file name " + file.name;
+    }
 
-        // get its extension, file.name
-        try {
-            let arrayFileName = file.name.split(".");
-            this.fileExt = arrayFileName[arrayFileName.length - 1].toLowerCase();
-        } catch (e) {
-            throw "Illegal file name " + file.name;
-        }
+    if (!supportedExts.includes(fileExt)) {
+        throw sprintf("File Type not supported: %s\nSupported types: %j", fileExt, supportedExts);
+    }
 
-        if (!(this.fileExt in this.supportedExts)) {
-            throw sprintf("File Type not supported: %s\nSupported types: %j", this.fileExt, this.supportedExts);
-        }
-
-        this.fileReader = new FileReader();
-        this.fileReader.onload = function (event) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        // onload
+        fileReader.onload = function (event) {
             // 文本位于 event.target.result
             let data = null;
 
             try {
                 data = event.target.result;
             } catch (e) {
-                throw "Can't read content of file. Detailed Error: " + e;
+                reject("Can't read content of file. Detailed Error: " + e);
             }
 
-            self.loaders[self.fileExt](data);
+            resolve(loaders[fileExt](data));
         };
 
-        this.fileReader.readAsText(file);
-    }
-
-    loadExtSRT(data) {
-        console.log("Loaded: ", data);
-
-        // Return parsed data
-        return [];
-    }
+        fileReader.readAsText(file);
+    });
 }
+
+function loadExtSRT(data) {
+    // todo: Return parsed data
+    const arrStrings = data.split("\n");
+
+    return null;
+}
+
+function loadExtTxt(data) {
+    console.log("loadExtTxt");
+    window.debugRaw = data;
+
+    const arrStrings = data.match(/[^\r\n]+/g);
+
+    window.debugArr = arrStrings;
+
+    return null;
+}
+
+export {loadFile};
