@@ -18,7 +18,10 @@
                 }
 
                 loadFile(files[0]).then(function (data) {
-                    // todo
+                    // todo: assign data to Player
+                    console.log(data);
+                }).catch(function (err) {
+                    console.log(err);
                 });
             }
         }
