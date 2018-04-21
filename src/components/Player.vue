@@ -25,12 +25,12 @@
             </div>
         </div>
         <div id="area-controls">
-            <el-button v-show="player.state === 'PAUSE'" v-on:click="play">
+            <button v-show="player.state === 'PAUSE'" v-on:click="play">
                 Play
-            </el-button>
-            <el-button v-show="player.state === 'PLAYING'" v-on:click="pause">
+            </button>
+            <button v-show="player.state === 'PLAYING'" v-on:click="pause">
                 Pause
-            </el-button>
+            </button>
         </div>
 
         <div id="area-subtitles">
