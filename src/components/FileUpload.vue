@@ -1,5 +1,9 @@
 <template>
     <div id="fileupload">
+        <div id="face">
+            <i>sdfsdf</i>
+            <div>Hello</div>
+        </div>
         <input type="file" v-on:change="onUploadFile">
     </div>
 </template>
@@ -23,9 +27,7 @@
                 }
 
                 loadFile(files[0]).then(function (data) {
-                    self.$emit('scriptLoaded', {
-                        data
-                    });
+                    self.$emit('scriptLoaded', data);
                 }).catch(function (err) {
                     alert(err);
                 });

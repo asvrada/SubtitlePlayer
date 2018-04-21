@@ -35,7 +35,10 @@ function loadFile(file) {
             try {
                 const data = event.target.result;
                 const ret = loaders[fileExt](data);
-                resolve(ret);
+                resolve({
+                    scripts: ret,
+                    name: file.name
+                });
             } catch (e) {
                 reject(e);
             }
