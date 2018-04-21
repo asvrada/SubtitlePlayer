@@ -87,6 +87,7 @@ export default class Player {
         this.jobID = setInterval(() => {
             self.cur = new Date() - self.beginPlayTime + self.resumeTime;
 
+            // 播放完毕
             if (self.cur >= self.maxMillSec) {
                 self.cur = self.maxMillSec;
 
