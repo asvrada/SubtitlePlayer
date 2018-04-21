@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <h1>Player</h1>
         <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
         <Player :scripts="scripts"></Player>
     </div>
@@ -28,7 +29,7 @@
     };
 </script>
 
-<style>
+<style lang="scss">
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

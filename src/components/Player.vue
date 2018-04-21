@@ -1,28 +1,27 @@
 <template>
     <div id="player" v-show="player.state !== 'EMPTY'">
-        <h1>Player</h1>
-        <div>
+        <div id="area-time">
             <!-- Format:
             hh:mm:ss,mmm / hh:mm:ss,mmm
             -->
             <div>
-                <div v-on:dblclick="dbClickTimestamp">
+                <div id="timestamp" v-on:dblclick="dbClickTimestamp">
                     {{ cur_hour }}:{{ cur_min }}:{{ cur_sec }},{{ cur_mill }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }},{{ max_mill }}
                 </div>
-                <div v-show="userEditing">
-                    <span>Input format: hh:mm:ss,millsec</span>
+                <div id="edit-timestamp" v-show="userEditing">
+                    <p>Input format: hh:mm:ss,millsec</p>
                     <input placeholder="hh:mm:ss" v-model="editCur" v-on:keyup.enter="submitTimestamp">
                     <button v-on:click="submitTimestamp">Go</button>
                 </div>
             </div>
 
-            <div>
+            <div id="range-input">
                 <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
                        v-on:input="onSliderInput" v-on:change="onSliderChange">
             </div>
         </div>
-        <div>
+        <div id="area-controls">
             <button v-show="player.state === 'PAUSE'" v-on:click="play">
                 Play
             </button>
@@ -31,7 +30,7 @@
             </button>
         </div>
 
-        <div>
+        <div id="area-subtitles">
             <p>{{player.curScript ? player.curScript.text : ""}}</p>
             <!--<p>{{ subtitle }}</p>-->
         </div>
@@ -47,7 +46,7 @@
         props: ["scripts"],
         watch: {
             // watch it
-            scripts: function (newVal, oldVal) {
+            scripts: function (newVal) {
                 this.player.load(newVal);
             }
         },
@@ -88,8 +87,8 @@
                 const reTimeStamp = /(?:(\d+):)?(\d+):(\d+)(?:,(\d+))?/g;
                 let match = reTimeStamp.exec(userInput);
                 if (match.length !== 5) {
-                    alert('Exception: Illegal input: ' + input + '\nPlease try again');
-                    throw 'Exception: Illegal input: ' + input + '\nPlease try again';
+                    alert('Exception: Illegal input: ' + userInput + '\nPlease try again');
+                    throw 'Exception: Illegal input: ' + userInput + '\nPlease try again';
                 }
 
                 const cur = j.convertToMillisec(match[1], match[2], match[3], match[4]);
@@ -98,6 +97,7 @@
                 this.player.moveCursorTo(cur);
             },
             onSliderInput() {
+                this.player.moveCursorTo(parseInt(this.sliderCur));
             },
             onSliderChange() {
                 this.player.moveCursorTo(parseInt(this.sliderCur));
@@ -140,6 +140,42 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    #player {
+        #area-time {
+            #timestamp {
+                font-size: 1.5em;
+            }
 
+            #edit-timestamp {
+                span {
+
+                }
+                input {
+
+                }
+                button {
+
+                }
+            }
+
+            #range-input {
+                input {
+                    width: 70%;
+                }
+            }
+        }
+
+        #area-controls {
+            button {
+                height: 1.5em;
+                width: 4em;
+                font-size: 2em;
+            }
+        }
+
+        #area-subtitles {
+            font-size: 2em;
+        }
+    }
 </style>
