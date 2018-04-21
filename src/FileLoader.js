@@ -48,6 +48,29 @@ function loadFile(file) {
     });
 }
 
+// todo
+function loadBlob(blob) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        // onload
+        fileReader.onload = function (event) {
+            // 文本位于 event.target.result
+            try {
+                const data = event.target.result;
+                const ret = loadExtSRT(data);
+                resolve({
+                    scripts: ret,
+                    name: "Demo 火星救援"
+                });
+            } catch (e) {
+                reject(e);
+            }
+        };
+
+        fileReader.readAsText(blob);
+    });
+}
+
 function loadExtSRT(data) {
     /**
      * array of scripts
@@ -64,4 +87,4 @@ function loadExtTxt(data) {
     return arrayStrings;
 }
 
-export {loadFile};
+export {loadFile, loadBlob};

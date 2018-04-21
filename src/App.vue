@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="nightmode">
-        <h1>Player</h1>
+        <h1>Subtitle Player</h1>
         <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
         <Player :scripts="scripts"></Player>
         <div id="padding"></div>

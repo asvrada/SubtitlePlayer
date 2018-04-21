@@ -209,6 +209,10 @@
                 background-color: $night-color-button;
                 color: $night-color-text;
                 border: none;
+
+                font-size: 1.5em;
+                width: 4em;
+                height: 2em;
             }
         }
 
