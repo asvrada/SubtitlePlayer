@@ -9,7 +9,6 @@
     "push": "node push-to-gh-page.js"
   },
   "dependencies": {
-    "element-ui": "^2.3.6",
     "sprintf-js": "^1.1.1",
     "subtitles-parser": "^0.0.2",
     "vue": "^2.5.13"
