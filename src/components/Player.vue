@@ -1,34 +1,39 @@
 <template>
     <div id="player" v-show="player.state !== 'EMPTY'">
         <h1>Player</h1>
-        <div id="area-time">
+        <div>
             <!-- Format:
             hh:mm:ss,mmm / hh:mm:ss,mmm
             -->
-            <div id="time-meter">
-                <div id="group-time-display" v-on:dblclick="dbClickTimestamp">
+            <div>
+                <div v-on:dblclick="dbClickTimestamp">
                     {{ cur_hour }}:{{ cur_min }}:{{ cur_sec }},{{ cur_mill }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }},{{ max_mill }}
                 </div>
-                <div id="group-time-input" v-show="userEditing">
+                <div v-show="userEditing">
                     <span>Input format: hh:mm:ss,millsec</span>
-                    <input id="time_input" placeholder="hh:mm:ss" v-model="editCur" v-on:keyup.enter="submitTimestamp">
-                    <button id="btnSubmitTime" v-on:click="submitTimestamp">Go</button>
+                    <input placeholder="hh:mm:ss" v-model="editCur" v-on:keyup.enter="submitTimestamp">
+                    <button v-on:click="submitTimestamp">Go</button>
                 </div>
             </div>
+
+            <div>
+                <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
+                       v-on:input="onSliderInput" v-on:change="onSliderChange">
+            </div>
         </div>
-        <div id="area-btn">
-            <button id="btnPlay" v-show="player.state === 'PAUSE'" v-on:click="play">
+        <div>
+            <button v-show="player.state === 'PAUSE'" v-on:click="play">
                 Play
             </button>
-            <button id="btnPause" v-show="player.state === 'PLAYING'" v-on:click="pause">
+            <button v-show="player.state === 'PLAYING'" v-on:click="pause">
                 Pause
             </button>
         </div>
 
-        <div id="area-subtitle-display">
-            <p id="title">{{player.curScript ? player.curScript.text : ""}}</p>
-            <!--<p id="subtitle">{{ subtitle }}</p>-->
+        <div>
+            <p>{{player.curScript ? player.curScript.text : ""}}</p>
+            <!--<p>{{ subtitle }}</p>-->
         </div>
     </div>
 </template>
@@ -50,7 +55,8 @@
             return {
                 player: new Player(),
                 userEditing: false,
-                editCur: 0
+                editCur: 0,
+                sliderCur: null
             };
         },
         methods: {
@@ -90,6 +96,11 @@
 
                 // 设置当前时间
                 this.player.moveCursorTo(cur);
+            },
+            onSliderInput() {
+            },
+            onSliderChange() {
+                this.player.moveCursorTo(parseInt(this.sliderCur));
             }
         },
         computed: {
@@ -117,6 +128,14 @@
             max_mill() {
                 return j.padZero(j.getMilliseconds(this.player.maxMillSec), 3);
             },
+            sliderCurComputed: {
+                get() {
+                    return (this.player.cur || 0).toString();
+                },
+                set(newVal) {
+                    this.sliderCur = newVal;
+                }
+            }
         }
     };
 </script>

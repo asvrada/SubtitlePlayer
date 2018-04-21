@@ -5,7 +5,6 @@ const STATE = {
     CHANGING: 'CHANGING'
 };
 
-
 export default class Player {
     constructor() {
         this.INTERVAL_SPEED = 233;
