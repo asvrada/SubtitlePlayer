@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "sprintf-js": "^1.1.1",
+    "subtitles-parser": "^0.0.2",
     "vue": "^2.5.13"
   },
   "devDependencies": {

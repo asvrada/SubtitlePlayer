@@ -5859,6 +5859,10 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
+subtitles-parser@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/subtitles-parser/-/subtitles-parser-0.0.2.tgz#cf2fcc3e397b1c7f831e1365f6b3ce37d3155194"
+
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"

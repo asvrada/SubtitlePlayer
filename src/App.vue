@@ -1,19 +1,29 @@
 <template>
     <div id="app">
-        <FileUpload></FileUpload>
-        <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
+        <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
+        <Player :scripts="scripts"></Player>
     </div>
 </template>
 
 <script>
-    import HelloWorld from './components/HelloWorld.vue';
     import FileUpload from "./components/FileUpload";
+    import Player from "./components/Player";
 
     export default {
         name: 'app',
         components: {
+            Player,
             FileUpload,
-            HelloWorld
+        },
+        data: function () {
+            return {
+                scripts: null
+            };
+        },
+        methods: {
+            scriptLoaded({data}) {
+                this.scripts = data;
+            }
         }
     };
 </script>

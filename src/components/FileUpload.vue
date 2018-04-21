@@ -7,10 +7,15 @@
 <script>
     import {loadFile} from '../FileLoader';
 
+    /**
+     * events emited:
+     * `scriptLoaded`
+     */
     export default {
         name: "FileUpload",
         methods: {
-            onUploadFile: function (event) {
+            onUploadFile(event) {
+                const self = this;
                 const files = event.target.files;
 
                 if (files.length !== 1) {
@@ -18,10 +23,11 @@
                 }
 
                 loadFile(files[0]).then(function (data) {
-                    // todo: assign data to Player
-                    console.log(data);
+                    self.$emit('scriptLoaded', {
+                        data
+                    });
                 }).catch(function (err) {
-                    console.log(err);
+                    alert(err);
                 });
             }
         }
