@@ -1,6 +1,6 @@
 <template>
     <div id="player" v-show="player.state !== 'EMPTY'">
-        <div id="area-title">Now Playing: {{ title }}</div>
+        <div id="area-title">正在播放:<span> {{ title }} </span></div>
 
         <div id="area-time">
             <!-- Format:
@@ -26,10 +26,10 @@
         </div>
         <div id="area-controls">
             <button v-show="player.state === 'PAUSE'" v-on:click="play">
-                Play
+                播放
             </button>
             <button v-show="player.state === 'PLAYING'" v-on:click="pause">
-                Pause
+                暂停
             </button>
         </div>
 
