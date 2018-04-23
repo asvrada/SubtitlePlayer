@@ -8,14 +8,18 @@
             -->
             <div>
                 <div id="timestamp" v-on:dblclick="dbClickTimestamp">
-                    {{ cur_hour }}:{{ cur_min }}:{{ cur_sec }},{{ cur_mill }}
-                    / {{ max_hour }}:{{ max_min }}:{{ max_sec }},{{ max_mill }}
+                    {{ cur_hour }}:{{ cur_min }}:{{ cur_sec }}
+                    / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
+                </div>
 
-                    <div id="edit-timestamp" v-show="userEditing">
-                        <p>Input format: hh:mm:ss,millsec</p>
-                        <input placeholder="hh:mm:ss" v-model="editCur" v-on:keyup.enter="submitTimestamp">
-                        <button v-on:click="submitTimestamp">Go</button>
-                    </div>
+                <div id="edit-timestamp" v-show="userEditing">
+                    <p>输入格式: <span>小时:分钟:秒,毫秒</span> 或者 <span>分钟:秒</span></p>
+                    <input placeholder="hh:mm:ss,millsec"
+                           v-model="editCur"
+                           v-on:keyup.enter="submitTimestamp"
+                           v-on:keyup.esc="dbClickTimestamp">
+                    <button v-on:click="submitTimestamp">跳至</button>
+                    <button v-on:click="dbClickTimestamp">取消</button>
                 </div>
             </div>
 
@@ -152,11 +156,12 @@
         box-sizing: border-box;
 
         #area-title {
-            font-size: 4em;
+            font-size: 2em;
         }
 
         #area-time {
             #timestamp {
+                cursor: pointer;
                 font-size: 1.5em;
 
                 #edit-timestamp {
@@ -164,8 +169,6 @@
 
                     padding: 15px 0 15px 0;
                     border-radius: 15px;
-
-                    margin: 0 30% 0 30%;
 
                     p {
                         margin: 0 0 5px 0;
