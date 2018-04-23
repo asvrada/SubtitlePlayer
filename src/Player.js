@@ -7,7 +7,7 @@ const STATE = {
 
 export default class Player {
     constructor() {
-        this.INTERVAL_SPEED = 233;
+        this.INTERVAL_SPEED = 241;
         this.scripts = null;
 
         this.state = STATE.EMPTY;

@@ -8,18 +8,19 @@
             -->
             <div>
                 <div id="timestamp" v-on:dblclick="dbClickTimestamp">
-                    {{ cur_hour }}:{{ cur_min }}:{{ cur_sec }}
+                    {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
                 </div>
 
                 <div id="edit-timestamp" v-show="userEditing">
-                    <p>输入格式: <span>小时:分钟:秒,毫秒</span> 或者 <span>分钟:秒</span></p>
-                    <input placeholder="hh:mm:ss,millsec"
+                    <p>输入格式: <span class="timeformat">小时:分钟:秒</span> 或者 <span class="timeformat">分钟:秒</span></p>
+                    <input id="time-input"
+                           placeholder="hh:mm:ss"
                            v-model="editCur"
                            v-on:keyup.enter="submitTimestamp"
                            v-on:keyup.esc="dbClickTimestamp">
-                    <button v-on:click="submitTimestamp">跳至</button>
-                    <button v-on:click="dbClickTimestamp">取消</button>
+                    <button class="btn" v-on:click="submitTimestamp">跳至</button>
+                    <button class="btn" v-on:click="dbClickTimestamp">取消</button>
                 </div>
             </div>
 
@@ -29,10 +30,10 @@
             </div>
         </div>
         <div id="area-controls">
-            <button v-show="player.state === 'PAUSE'" v-on:click="play">
+            <button class="btn" v-show="player.state === 'PAUSE'" v-on:click="play">
                 播放
             </button>
-            <button v-show="player.state === 'PLAYING'" v-on:click="pause">
+            <button class="btn" v-show="player.state === 'PLAYING'" v-on:click="pause">
                 暂停
             </button>
         </div>
@@ -80,7 +81,7 @@
                     // 状态变为暂停
                     this.pause();
                     // 将当前时间写入input
-                    this.editCur = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec + ',' + this.cur_mill;
+                    this.editCur = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
                 }
 
                 // toggle 输入区域
@@ -137,6 +138,15 @@
             max_mill() {
                 return j.padZero(j.getMilliseconds(this.player.maxMillSec), 3);
             },
+            time_indicator() {
+                if (this.player.state !== 'PLAYING') {
+                    return ":";
+                }
+
+                // interval in millsec
+                const interval = 500;
+                return Math.floor(this.player.cur % (2 * interval) / interval) ? " " : ":";
+            },
             sliderCurComputed: {
                 get() {
                     return (this.player.cur || 0).toString();
@@ -152,6 +162,22 @@
 <style lang="scss">
     @import "../sass/color-pattern-night";
 
+    .timeformat {
+        color: $night-color-highlight;
+    }
+
+    .btn {
+        background-color: $night-color-button;
+        color: $night-color-text;
+        border: none;
+
+        font-size: 1.5em;
+        width: 4em;
+        height: 2em;
+
+        margin: 5px;
+    }
+
     #player {
         box-sizing: border-box;
 
@@ -162,7 +188,7 @@
         #area-time {
             #timestamp {
                 cursor: pointer;
-                font-size: 1.5em;
+                font-size: 4em;
 
                 #edit-timestamp {
                     background: $night-color-grey;
@@ -197,6 +223,11 @@
                 }
             }
 
+            #time-input {
+                height: 2em;
+                font-size: 1em;
+            }
+
             #range-input {
                 input {
                     margin: 20px 0 20px 0;
@@ -207,16 +238,6 @@
 
         #area-controls {
             padding-bottom: 10px;
-
-            button {
-                background-color: $night-color-button;
-                color: $night-color-text;
-                border: none;
-
-                font-size: 1.5em;
-                width: 4em;
-                height: 2em;
-            }
         }
 
         #area-subtitles {
