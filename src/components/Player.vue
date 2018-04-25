@@ -94,12 +94,14 @@
                 const reTimeStamp = /^(?:(\d{0,2}):)?(\d{0,2}):(\d{0,2})(?:,(\d{0,3}))?$/;
                 let match = reTimeStamp.exec(userInput);
                 if (match === null) {
-                    // 将当前时间写入input
+                    // 重新将当前时间写入input
                     this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
 
                     alert(`输入时间格式错误: ${userInput}\n请重试`);
+                    return;
                 }
 
+                // 跳转到用户输入的时间
                 this.userEditing = false;
                 this.player.pause();
 
