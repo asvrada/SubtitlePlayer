@@ -117,6 +117,8 @@ export default class Player {
     moveCursorTo(millsec) {
         this.pause();
 
+        millsec = millsec > this.maxMillSec ? this.maxMillSec : millsec;
+
         this.resumeTime = millsec;
         this.curIndex = 0;
         this.cur = millsec;

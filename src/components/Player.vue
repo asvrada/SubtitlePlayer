@@ -16,7 +16,7 @@
                     <p>输入格式: <span class="timeformat">小时:分钟:秒</span> 或者 <span class="timeformat">分钟:秒</span></p>
                     <input id="time-input"
                            placeholder="hh:mm:ss"
-                           v-model="editCur"
+                           v-model="editTimestamp"
                            v-on:keyup.enter="submitTimestamp"
                            v-on:keyup.esc="dbClickTimestamp">
                     <button class="btn" v-on:click="submitTimestamp">跳至</button>
@@ -64,7 +64,7 @@
                 title: "",
                 player: new Player(),
                 userEditing: false,
-                editCur: "",
+                editTimestamp: "",
                 sliderCur: ""
             };
         },
@@ -81,25 +81,27 @@
                     // 状态变为暂停
                     this.pause();
                     // 将当前时间写入input
-                    this.editCur = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
+                    this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
                 }
 
                 // toggle 输入区域
                 this.userEditing = !this.userEditing;
             },
             submitTimestamp() {
-                const userInput = this.editCur;
+                const userInput = this.editTimestamp;
+
+                // [hh:]mm:ss[,mmm]
+                const reTimeStamp = /^(?:(\d{0,2}):)?(\d{0,2}):(\d{0,2})(?:,(\d{0,3}))?$/;
+                let match = reTimeStamp.exec(userInput);
+                if (match === null) {
+                    // 将当前时间写入input
+                    this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
+
+                    alert(`输入时间格式错误: ${userInput}\n请重试`);
+                }
 
                 this.userEditing = false;
                 this.player.pause();
-
-                // [hh:]mm:ss[,mmm]
-                const reTimeStamp = /(?:(\d+):)?(\d+):(\d+)(?:,(\d+))?/g;
-                let match = reTimeStamp.exec(userInput);
-                if (match.length !== 5) {
-                    alert('Exception: Illegal input: ' + userInput + '\nPlease try again');
-                    throw 'Exception: Illegal input: ' + userInput + '\nPlease try again';
-                }
 
                 const cur = j.convertToMillisec(match[1], match[2], match[3], match[4]);
 
