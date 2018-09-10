@@ -1,6 +1,9 @@
 import {sprintf} from "sprintf-js";
 import * as parser from "subtitles-parser";
 
+import * as jschardet from "jschardet";
+import * as iconv from "iconv-lite";
+
 /**
  * Main Entry for loading files
  * @param {File} file
@@ -34,7 +37,11 @@ function loadFile(file) {
             // 文本位于 event.target.result
             try {
                 const data = event.target.result;
-                const ret = loaders[fileExt](data);
+
+                const coding = jschardet.detect(data);
+                const decodedData = iconv.decode(data, coding["encoding"]);
+
+                const ret = loaders[fileExt](decodedData);
                 resolve({
                     scripts: ret,
                     name: file.name
@@ -44,30 +51,7 @@ function loadFile(file) {
             }
         };
 
-        fileReader.readAsText(file);
-    });
-}
-
-// todo
-function loadBlob(blob) {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        // onload
-        fileReader.onload = function (event) {
-            // 文本位于 event.target.result
-            try {
-                const data = event.target.result;
-                const ret = loadExtSRT(data);
-                resolve({
-                    scripts: ret,
-                    name: "Demo 火星救援"
-                });
-            } catch (e) {
-                reject(e);
-            }
-        };
-
-        fileReader.readAsText(blob);
+        fileReader.readAsBinaryString(file);
     });
 }
 
@@ -87,4 +71,4 @@ function loadExtTxt(data) {
     return arrayStrings;
 }
 
-export {loadFile, loadBlob};
+export {loadFile};
