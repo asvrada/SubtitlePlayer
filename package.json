@@ -11,7 +11,6 @@
   "dependencies": {
     "iconv-lite": "^0.4.24",
     "jschardet": "^1.6.0",
-    "sprintf-js": "^1.1.1",
     "subtitles-parser": "^0.0.2",
     "vue": "^2.5.13"
   },

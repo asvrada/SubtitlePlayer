@@ -1,4 +1,3 @@
-import {sprintf} from "sprintf-js";
 import * as parser from "subtitles-parser";
 
 import * as jschardet from "jschardet";
@@ -28,7 +27,7 @@ function loadFile(file) {
 
         // Check extension
         if (!Object.keys(loaders).includes(fileExt)) {
-            throw sprintf("File Type not supported: %s\nSupported types: %j", fileExt, Object.keys(loaders));
+            throw `File Type not supported: ${fileExt}\nSupported types: ${Object.keys(loaders)}`;
         }
 
         const fileReader = new FileReader();
