@@ -46,8 +46,8 @@
 </template>
 
 <script>
-    import j from "../Helper";
-    import Player from "../Player";
+    import j from "../classes/Helper";
+    import Player from "../classes/Player";
 
     export default {
         name: "Player",

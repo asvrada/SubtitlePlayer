@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import {loadFile} from '../FileLoader';
+    import {loadFile} from '../classes/FileLoader';
 
     /**
      * events emited:
