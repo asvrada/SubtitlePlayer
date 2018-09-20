@@ -1,9 +1,20 @@
 <template>
-    <div id="app" class="nightmode">
-        <h1>Subtitle Player</h1>
-        <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
-        <Player :scripts="scripts"></Player>
-        <div id="padding"></div>
+    <div id="app" class="nightmode container center">
+        <div class="row">
+            <h1>Subtitle Player</h1>
+        </div>
+
+        <div class="row">
+            <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
+        </div>
+
+        <div class="row">
+            <Player :scripts="scripts"></Player>
+        </div>
+
+        <div class="row">
+            <div id="padding"></div>
+        </div>
     </div>
 </template>
 
@@ -30,28 +41,21 @@
     };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="true">
     @import "./sass/color-pattern-night";
 
-    body {
-        padding: 0;
-        margin: 0;
-    }
-
-    .nightmode {
-        background-color: $night-color-background;
-
-        color: $night-color-text;
-    }
-
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
+        margin: 0;
+        padding: 2em;
+        width: 100%;
 
-        padding: 20px;
-        box-sizing: border-box;
+        background-color: $night-color-background;
+        color: $night-color-text;
+
+        h1 {
+            margin: 0;
+            user-select: none;
+        }
     }
 
     #padding {

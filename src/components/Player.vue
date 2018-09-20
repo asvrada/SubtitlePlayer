@@ -1,10 +1,10 @@
 <template>
-    <div id="player" v-show="player.state !== 'EMPTY'">
+    <div class="container" id="player" v-show="player.state !== 'EMPTY'">
         <!--status bar-->
-        <div id="area-title">Playing: <span> {{ title }} </span></div>
+        <div class="row" id="area-title">Playing: <span> {{ title }} </span></div>
 
         <!--area for time display-->
-        <div id="area-time">
+        <div class="row" id="area-time">
             <!-- Format:
             hh:mm:ss,mmm / hh:mm:ss,mmm
             -->
@@ -20,8 +20,10 @@
                        v-model="editTimestamp"
                        v-on:keyup.enter="submitTimestamp"
                        v-on:keyup.esc="dbClickTimestamp">
-                <button class="btn" v-on:click="submitTimestamp">Jump to</button>
-                <button class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+                <div class="row">
+                    <button id="btn_jumpto" class="btn" v-on:click="submitTimestamp">Jump to</button>
+                    <button id="btn_cancel" class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+                </div>
             </div>
 
             <!--time slider-->
@@ -31,7 +33,7 @@
             </div>
         </div>
         <!--buttons, controls-->
-        <div id="area-controls">
+        <div class="row" id="area-controls">
             <button class="btn" v-show="player.state === 'PAUSE'" v-on:click="play">
                 Play
             </button>
@@ -40,7 +42,7 @@
             </button>
         </div>
 
-        <div id="area-subtitles">
+        <div class="row" id="area-subtitles">
             <p>{{player.curScript ? player.curScript.text : ""}}</p>
             <!--todo-->
             <!--<p>{{ subtitle }}</p>-->
@@ -173,18 +175,6 @@
         color: $night-color-highlight;
     }
 
-    .btn {
-        background-color: $night-color-button;
-        color: $night-color-text;
-        border: none;
-
-        font-size: 1.5em;
-        width: 4em;
-        height: 2em;
-
-        margin: 5px;
-    }
-
     #player {
         box-sizing: border-box;
 
@@ -193,61 +183,53 @@
         }
 
         #area-time {
+
             #timestamp {
                 cursor: pointer;
                 font-size: 4em;
 
-                #edit-timestamp {
-                    background: $night-color-grey;
-
-                    padding: 15px 0 15px 0;
-                    border-radius: 15px;
-
-                    p {
-                        margin: 0 0 5px 0;
-                        padding: 0;
-                    }
-                    input {
-                        border: none;
-                        padding: 0;
-
-                        width: 7em;
-                        height: 1.5em;
-                        font-size: 1em;
-
-                        text-align: center;
-                    }
-                    button {
-                        border: 0;
-                        padding: 0;
-
-                        width: 4em;
-                        height: 1.5em;
-                        font-size: 1em;
-
-                        margin-left: 1em;
-                    }
-                }
             }
 
-            #time-input {
-                height: 2em;
-                font-size: 1em;
+            #edit-timestamp {
+                padding: 1em;
+                background: $primary-color-dark;
+
+                #time-input {
+                    width: 5em;
+                    color: $night-color-text;
+                }
+
+                #btn_jumpto {
+                    background-color: $accent-color;
+                }
+
+                #btn_cancel {
+
+                }
+
+                button {
+                    margin: 0 1em 0 1em;
+                }
             }
 
             #range-input {
                 input {
-                    margin: 20px 0 20px 0;
-                    width: 70%;
+                    width: 100%;
                 }
             }
         }
 
         #area-controls {
             padding-bottom: 10px;
+
         }
 
         #area-subtitles {
+            padding: 2em;
+
+            position: fixed;
+            bottom: 0;
+
             p {
                 font-size: 2em;
 
