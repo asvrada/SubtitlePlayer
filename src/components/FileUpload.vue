@@ -1,8 +1,8 @@
 <template>
-    <div id="fileupload">
+    <div id="fileUploader">
         <div id="face">
             <i class="fas fa-upload"></i>
-            <div>支持的格式：.srt</div>
+            <div>Support format: .srt</div>
         </div>
         <input type="file" v-on:change="onUploadFile">
     </div>
@@ -30,7 +30,6 @@
                     self.$emit('scriptLoaded', data);
                 }).catch(function (err) {
                     alert(err);
-                    console.log(err);
                 });
             },
         }

@@ -27,16 +27,18 @@ function loadFile(file) {
 
         // Check extension
         if (!Object.keys(loaders).includes(fileExt)) {
-            throw `File Type not supported: ${fileExt}\nSupported types: ${Object.keys(loaders)}`;
+            throw `${fileExt} format is not supported\nSupported files are: ${Object.keys(loaders)}`;
         }
 
         const fileReader = new FileReader();
         // onload
         fileReader.onload = function (event) {
-            // 文本位于 event.target.result
+            // event.target.result
             try {
                 const data = event.target.result;
 
+                // fix encoding
+                // todo: dependency too large, how to optimize this?
                 const coding = jschardet.detect(data);
                 const decodedData = iconv.decode(data, coding["encoding"]);
 

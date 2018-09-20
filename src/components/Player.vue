@@ -1,45 +1,48 @@
 <template>
     <div id="player" v-show="player.state !== 'EMPTY'">
-        <div id="area-title">正在播放:<span> {{ title }} </span></div>
+        <!--status bar-->
+        <div id="area-title">Playing: <span> {{ title }} </span></div>
 
+        <!--area for time display-->
         <div id="area-time">
             <!-- Format:
             hh:mm:ss,mmm / hh:mm:ss,mmm
             -->
-            <div>
-                <div id="timestamp" v-on:dblclick="dbClickTimestamp">
-                    {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
-                    / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
-                </div>
-
-                <div id="edit-timestamp" v-show="userEditing">
-                    <p>输入格式: <span class="timeformat">小时:分钟:秒</span> 或者 <span class="timeformat">分钟:秒</span></p>
-                    <input id="time-input"
-                           placeholder="hh:mm:ss"
-                           v-model="editTimestamp"
-                           v-on:keyup.enter="submitTimestamp"
-                           v-on:keyup.esc="dbClickTimestamp">
-                    <button class="btn" v-on:click="submitTimestamp">跳至</button>
-                    <button class="btn" v-on:click="dbClickTimestamp">取消</button>
-                </div>
+            <div id="timestamp" v-on:dblclick="dbClickTimestamp">
+                {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
+                / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
             </div>
 
+            <div id="edit-timestamp" v-show="userEditing">
+                <p>Input Format: <span class="timeformat">hh:mm:ss</span> -or- <span class="timeformat">mm:ss</span></p>
+                <input id="time-input"
+                       placeholder="hh:mm:ss"
+                       v-model="editTimestamp"
+                       v-on:keyup.enter="submitTimestamp"
+                       v-on:keyup.esc="dbClickTimestamp">
+                <button class="btn" v-on:click="submitTimestamp">Jump to</button>
+                <button class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+            </div>
+
+            <!--time slider-->
             <div id="range-input">
                 <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
                        v-on:input="onSliderInput" v-on:change="onSliderChange">
             </div>
         </div>
+        <!--buttons, controls-->
         <div id="area-controls">
             <button class="btn" v-show="player.state === 'PAUSE'" v-on:click="play">
-                播放
+                Play
             </button>
             <button class="btn" v-show="player.state === 'PLAYING'" v-on:click="pause">
-                暂停
+                Pause
             </button>
         </div>
 
         <div id="area-subtitles">
             <p>{{player.curScript ? player.curScript.text : ""}}</p>
+            <!--todo-->
             <!--<p>{{ subtitle }}</p>-->
         </div>
     </div>
@@ -97,7 +100,7 @@
                     // 重新将当前时间写入input
                     this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
 
-                    alert(`输入时间格式错误: ${userInput}\n请重试`);
+                    alert(`Un-acceptable input format: ${userInput}\nPlease fix and try again`);
                     return;
                 }
 
