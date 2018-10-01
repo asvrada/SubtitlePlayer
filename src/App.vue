@@ -47,6 +47,7 @@
     #app {
         margin: 0;
         padding: 2em;
+        max-width: 100%;
         width: 100%;
 
         background-color: $night-color-background;

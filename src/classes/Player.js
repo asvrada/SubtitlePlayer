@@ -8,6 +8,10 @@ const STATE = {
 export default class Player {
     constructor() {
         this.INTERVAL_SPEED = 241;
+        /**
+         * Array of scripts, each object contains id, startTime, endTime, text
+         * @type {[{}]}
+         */
         this.scripts = null;
 
         this.state = STATE.EMPTY;

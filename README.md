@@ -1,6 +1,6 @@
 # Subtitle Player
 
-[View Online](https://thissentenceiswrong.github.io/vue-subtitle-player/)
+[View Online](https://asvrada.github.io/vue-subtitle-player/)
 
 ### Todo
 1. Better UI

@@ -1,18 +1,21 @@
 <template>
     <div id="fileUploader" class="container">
-        <vue-upload
-                class="file-uploader"
-                extensions="srt"
-                accept="*"
-                @input-filter="inputFilter"
-                @input-file="inputFile"
-                ref="vueUpload">
-            <i class="fa fa-plus"></i>
-            Select file
-            <br/>
-            Support format: .srt
-        </vue-upload>
+        <div class="row">
+            <vue-upload
+                    class="file-uploader"
+                    extensions="srt"
+                    accept="*"
+                    @input-filter="inputFilter"
+                    @input-file="inputFile"
+                    ref="vueUpload">
+                <i class="fa fa-plus"></i>
+                Select file
+                <br/>
+                Support format: .srt
+            </vue-upload>
 
+            <button class="waves-effect waves-light btn" id="btn_demo" @click="loadDemo">Demo</button>
+        </div>
     </div>
 </template>
 
@@ -20,6 +23,7 @@
     import {loadFile} from '../classes/FileLoader';
 
     import VueUpload from 'vue-upload-component';
+    import * as parser from "subtitles-parser";
 
     /**
      * events emited:
@@ -29,6 +33,19 @@
         name: "FileUpload",
         components: {VueUpload},
         methods: {
+            loadDemo() {
+                const self = this;
+                const PATH_DEMO = "./demo_martian.srt";
+                fetch(PATH_DEMO).then(function (response) {
+                    response.text().then(function (data) {
+                        const scripts = parser.fromSrt(data, true);
+                        self.$emit('scriptLoaded', {
+                            scripts: scripts,
+                            name: "demo_martian.srt"
+                        });
+                    });
+                });
+            },
             inputFilter(newFile, oldFile, prevent) {
                 if (newFile && !oldFile) {
                     // Before adding a file
@@ -44,7 +61,8 @@
                         return prevent()
                     }
                 }
-            },
+            }
+            ,
             inputFile(newFile, oldFile) {
                 if (newFile && !oldFile) {
                     // add
@@ -68,6 +86,21 @@
             padding: 20px;
             border-radius: 15px;
             background: #21308e;
+
+            cursor: pointer;
+        }
+
+        #btn_demo {
+            margin: 0 0 0 20px;
+            border: 0;
+            border-radius: 15px;
+            background: #21308e;
+            color: white;
+
+            width: 175px;
+            height: 84px;
+            position: relative;
+            top: -37px;
         }
     }
 </style>

@@ -5,44 +5,47 @@
 
         <!--area for time display-->
         <div class="row" id="area-time">
-            <!-- Format:
-            hh:mm:ss,mmm / hh:mm:ss,mmm
-            -->
-            <div id="timestamp" v-on:dblclick="dbClickTimestamp">
-                {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
-                / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
-            </div>
-
-            <div id="edit-timestamp" v-show="userEditing">
-                <p>Input Format: <span class="timeformat">hh:mm:ss</span> -or- <span class="timeformat">mm:ss</span></p>
-                <input id="time-input"
-                       placeholder="hh:mm:ss"
-                       v-model="editTimestamp"
-                       v-on:keyup.enter="submitTimestamp"
-                       v-on:keyup.esc="dbClickTimestamp">
-                <div class="row">
-                    <button id="btn_jumpto" class="btn" v-on:click="submitTimestamp">Jump to</button>
-                    <button id="btn_cancel" class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+            <div class="container">
+                <!-- Format:
+                hh:mm:ss,mmm / hh:mm:ss,mmm
+                -->
+                <div class="row" id="timestamp" v-on:dblclick="dbClickTimestamp">
+                    {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
+                    / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
                 </div>
-            </div>
 
-            <!--time slider-->
-            <div id="range-input">
-                <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
-                       v-on:input="onSliderInput" v-on:change="onSliderChange">
+                <div class="row" id="edit-timestamp" v-show="userEditing">
+                    <p>Input Format: <span class="timeformat">hh:mm:ss</span> or <span class="timeformat">mm:ss</span>
+                    </p>
+                    <input id="time-input"
+                           placeholder="hh:mm:ss"
+                           v-model="editTimestamp"
+                           v-on:keyup.enter="submitTimestamp"
+                           v-on:keyup.esc="dbClickTimestamp">
+                    <div class="row">
+                        <button id="btn_jumpto" class="btn" v-on:click="submitTimestamp">Jump to</button>
+                        <button id="btn_cancel" class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+                    </div>
+                </div>
+
+                <!--time slider-->
+                <div class="row" id="range-input">
+                    <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
+                           v-on:input="onSliderInput" v-on:change="onSliderChange">
+                </div>
             </div>
         </div>
         <!--buttons, controls-->
         <div class="row" id="area-controls">
-            <button class="btn" v-show="player.state === 'PAUSE'" v-on:click="play">
+            <button class="btn" id="btn_play" v-show="player.state === 'PAUSE'" v-on:click="play">
                 Play
             </button>
-            <button class="btn" v-show="player.state === 'PLAYING'" v-on:click="pause">
+            <button class="btn" id="btn_pause" v-show="player.state === 'PLAYING'" v-on:click="pause">
                 Pause
             </button>
         </div>
 
-        <div class="row" id="area-subtitles">
+        <div class="row center" id="area-subtitles">
             <p>{{player.curScript ? player.curScript.text : ""}}</p>
             <!--todo-->
             <!--<p>{{ subtitle }}</p>-->
@@ -187,7 +190,7 @@
             #timestamp {
                 cursor: pointer;
                 font-size: 4em;
-
+                font-family: "Lucida Console", Monaco, monospace
             }
 
             #edit-timestamp {
@@ -195,7 +198,10 @@
                 background: $primary-color-dark;
 
                 #time-input {
+                    text-align: center;
+                    margin-bottom: 20px;
                     width: 5em;
+                    font-size: 3em;
                     color: $night-color-text;
                 }
 
@@ -220,15 +226,24 @@
         }
 
         #area-controls {
-            padding-bottom: 10px;
+            #btn_play {
+                background-color: green;
+            }
 
+            #btn_pause {
+                background-color: red;
+            }
         }
 
         #area-subtitles {
+            pointer-events: none;
+
+            width: 100%;
             padding: 2em;
 
             position: fixed;
-            bottom: 0;
+            left: 0;
+            bottom: 20px;
 
             p {
                 font-size: 2em;
