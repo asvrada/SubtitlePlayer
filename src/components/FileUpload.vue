@@ -96,11 +96,6 @@
             border-radius: 15px;
             background: #21308e;
             color: white;
-
-            width: 175px;
-            height: 84px;
-            position: relative;
-            top: -37px;
         }
     }
 </style>

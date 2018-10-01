@@ -10,6 +10,7 @@
                 hh:mm:ss,mmm / hh:mm:ss,mmm
                 -->
                 <div class="row" id="timestamp" v-on:dblclick="dbClickTimestamp">
+                    <i id="btn_set_timestamp" @click="dbClickTimestamp" class="fas fa-sliders-h"></i>
                     {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
                 </div>
@@ -30,7 +31,7 @@
 
                 <!--time slider-->
                 <div class="row" id="range-input">
-                    <input type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
+                    <input class="slider" type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
                            v-on:input="onSliderInput" v-on:change="onSliderChange">
                 </div>
             </div>
@@ -188,9 +189,16 @@
         #area-time {
 
             #timestamp {
+                user-select: none;
+
                 cursor: pointer;
-                font-size: 4em;
-                font-family: "Lucida Console", Monaco, monospace
+                font-size: 2em;
+                font-family: "Lucida Console", Monaco, monospace;
+
+                #btn_set_timestamp {
+                    font-size: 0.7em;
+                    color: #80808033;
+                }
             }
 
             #edit-timestamp {
@@ -219,8 +227,30 @@
             }
 
             #range-input {
-                input {
+                .slider {
+                    border: 0;
+                    -webkit-appearance: none;
                     width: 100%;
+                    height: 30px;
+                    background: #000000;
+                    outline: none;
+                    opacity: 0.7;
+                    -webkit-transition: .2s;
+                    transition: opacity .2s;
+                }
+
+                .slider:hover {
+                    opacity: 1;
+                }
+
+                .slider::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 20px;
+                    height: 30px;
+                    border-radius: 5px;
+                    background: #ffffff;
+                    cursor: pointer;
                 }
             }
         }
