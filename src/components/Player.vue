@@ -31,11 +31,13 @@
 
                 <!--time slider-->
                 <div class="row" id="range-input">
-                    <input class="slider" type="range" min="0" v-bind:max="player.maxMillSec" v-model:value="sliderCurComputed"
+                    <input class="slider" type="range" min="0" v-bind:max="player.maxMillSec"
+                           v-model:value="sliderCurComputed"
                            v-on:input="onSliderInput" v-on:change="onSliderChange">
                 </div>
             </div>
         </div>
+
         <!--buttons, controls-->
         <div class="row" id="area-controls">
             <button class="btn" id="btn_play" v-show="player.state === 'PAUSE'" v-on:click="play">
@@ -47,9 +49,11 @@
         </div>
 
         <div class="row center" id="area-subtitles">
-            <p>{{player.curScript ? player.curScript.text : ""}}</p>
-            <!--todo-->
-            <!--<p>{{ subtitle }}</p>-->
+            <div id="subtitle-wrapper">
+                <p>{{player.curScript ? player.curScript.text : ""}}</p>
+                <!--todo-->
+                <!--<p>{{ subtitle }}</p>-->
+            </div>
         </div>
     </div>
 </template>
@@ -269,20 +273,24 @@
             pointer-events: none;
 
             width: 100%;
-            padding: 2em;
 
             position: fixed;
             left: 0;
             bottom: 20px;
 
-            p {
-                font-size: 2em;
+            #subtitle-wrapper {
+                width: 80%;
+                margin: 0 auto;
+                text-align: center;
 
-                margin: 0;
-                padding-top: 2em;
-                height: 3em;
+                p {
+                    border-radius: 10px;
+                    background-color: rgba(128, 128, 128, 0.5);
+                    font-size: 2em;
+                    margin: 0;
+                }
             }
-        }
 
+        }
     }
 </style>

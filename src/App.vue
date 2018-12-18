@@ -11,10 +11,6 @@
         <div class="row">
             <Player :scripts="scripts"></Player>
         </div>
-
-        <div class="row">
-            <div id="padding"></div>
-        </div>
     </div>
 </template>
 
@@ -59,9 +55,5 @@
             margin: 0;
             user-select: none;
         }
-    }
-
-    #padding {
-        height: 200px;
     }
 </style>
