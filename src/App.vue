@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="nightmode container center">
         <div class="row">
-            <h1>Subtitle Player</h1>
+            <h2>Subtitle Player</h2>
         </div>
 
         <div class="row">
