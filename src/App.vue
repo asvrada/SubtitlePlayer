@@ -41,17 +41,19 @@
     };
 </script>
 
-<style lang="scss" scoped="true">
+<style lang="scss">
     @import "./sass/color-pattern-night";
+
+    body {
+        background-color: $night-color-background;
+        color: $night-color-text;
+    }
 
     #app {
         margin: 0;
         padding: 2em;
         max-width: 100%;
         width: 100%;
-
-        background-color: $night-color-background;
-        color: $night-color-text;
 
         h1 {
             margin: 0;
