@@ -31,7 +31,7 @@
 
                 <!--time slider-->
                 <div id="range-input">
-                    <input class="slider" type="range" min="0" v-bind:max="player.maxMillSec"
+                    <input class="slider" type="range" min="0" v-bind:max="slider_max_val"
                            v-model:value="sliderCurComputed"
                            v-on:input="onSliderInput" v-on:change="onSliderChange">
                 </div>
@@ -78,7 +78,9 @@
                 player: new Player(),
                 userEditing: false,
                 editTimestamp: "",
-                sliderCur: ""
+                currentCursor: 0,
+                // number of values for <input range>
+                sliderStep: 500
             };
         },
         methods: {
@@ -124,13 +126,16 @@
                 this.player.moveCursorTo(cur);
             },
             onSliderInput() {
-                this.player.moveCursorTo(parseInt(this.sliderCur));
+                this.player.moveCursorTo(this.currentCursor);
             },
             onSliderChange() {
-                this.player.moveCursorTo(parseInt(this.sliderCur));
+                this.player.moveCursorTo(this.currentCursor);
             }
         },
         computed: {
+            slider_max_val() {
+                return this.sliderStep;
+            },
             cur_hour() {
                 return j.padZero(j.getHours(this.player.cur), 2);
             },
@@ -166,10 +171,20 @@
             },
             sliderCurComputed: {
                 get() {
-                    return (this.player.cur || 0).toString();
+                    const maxTimeRange = this.player.maxMillSec;
+                    let cur = this.player.cur || 0;
+
+                    cur = Math.floor(cur / maxTimeRange * this.sliderStep);
+
+                    return cur.toString();
                 },
                 set(newVal) {
-                    this.sliderCur = newVal;
+                    const maxTimeRange = this.player.maxMillSec;
+                    let stepInput = parseInt(newVal);
+
+                    stepInput = Math.floor(stepInput / this.sliderStep * maxTimeRange);
+
+                    this.currentCursor = stepInput;
                 }
             }
         }
