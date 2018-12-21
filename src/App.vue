@@ -1,16 +1,15 @@
 <template>
-    <div id="app" class="nightmode container center">
-        <div class="row">
-            <h2>Subtitle Player</h2>
-        </div>
+    <div id="app">
+        <h1>Subtitle Player</h1>
 
-        <div class="row">
-            <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
-        </div>
+        <FileUpload v-on:scriptLoaded="scriptLoaded"></FileUpload>
 
-        <div class="row">
-            <Player :scripts="scripts"></Player>
-        </div>
+        <Player id="player" :scripts="scripts"></Player>
+
+        <a href="https://github.com/asvrada/vue-subtitle-player"><img
+                style="position: absolute; top: 0; right: 0; border: 0;"
+                src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"
+                alt="Fork me on GitHub"></a>
     </div>
 </template>
 
@@ -43,17 +42,23 @@
     body {
         background-color: $night-color-background;
         color: $night-color-text;
+
+        text-align: center;
+
+        font-family: unquote("Arial, Helvetica, sans-serif");
     }
 
     #app {
-        margin: 0;
-        padding: 2em;
-        max-width: 100%;
         width: 100%;
 
         h1 {
-            margin: 0;
-            user-select: none;
+            font-size: 3em;
+        }
+
+        #player {
+            margin: 0 auto;
+            width: 80%;
         }
     }
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container" id="player" v-show="player.state !== 'EMPTY'">
+    <div id="player" v-show="player.state !== 'EMPTY'">
         <!--status bar-->
         <div class="row" id="area-title">Playing: <span> {{ title }} </span></div>
 
@@ -9,13 +9,13 @@
                 <!-- Format:
                 hh:mm:ss,mmm / hh:mm:ss,mmm
                 -->
-                <div class="row" id="timestamp" v-on:dblclick="dbClickTimestamp">
+                <div id="timestamp" v-on:dblclick="dbClickTimestamp">
                     <i id="btn_set_timestamp" @click="dbClickTimestamp" class="fas fa-sliders-h"></i>
                     {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
                 </div>
 
-                <div class="row" id="edit-timestamp" v-show="userEditing">
+                <div id="edit-timestamp" v-show="userEditing">
                     <p>Input Format: <span class="timeformat">hh:mm:ss</span> or <span class="timeformat">mm:ss</span>
                     </p>
                     <input id="time-input"
@@ -23,14 +23,14 @@
                            v-model="editTimestamp"
                            v-on:keyup.enter="submitTimestamp"
                            v-on:keyup.esc="dbClickTimestamp">
-                    <div class="row">
+                    <div>
                         <button id="btn_jumpto" class="btn" v-on:click="submitTimestamp">Jump to</button>
                         <button id="btn_cancel" class="btn" v-on:click="dbClickTimestamp">Cancel</button>
                     </div>
                 </div>
 
                 <!--time slider-->
-                <div class="row" id="range-input">
+                <div id="range-input">
                     <input class="slider" type="range" min="0" v-bind:max="player.maxMillSec"
                            v-model:value="sliderCurComputed"
                            v-on:input="onSliderInput" v-on:change="onSliderChange">
@@ -183,6 +183,21 @@
         color: $night-color-highlight;
     }
 
+    .btn {
+        border: 0;
+        border-radius: 10px;
+
+        height: 40px;
+        width: 90px;
+
+        cursor: pointer;
+        font-size: 1em;
+    }
+
+    .row {
+        margin: 10px;
+    }
+
     #player {
         box-sizing: border-box;
 
@@ -206,6 +221,7 @@
             }
 
             #edit-timestamp {
+                border-radius: 30px;
                 padding: 1em;
                 background: $primary-color-dark;
 
@@ -231,12 +247,15 @@
             }
 
             #range-input {
+
+                margin: 20px 0;
+
                 .slider {
                     border: 0;
                     -webkit-appearance: none;
                     width: 100%;
-                    height: 30px;
-                    background: #000000;
+                    background: #494949;
+                    height: 5px;
                     outline: none;
                     opacity: 0.7;
                     -webkit-transition: .2s;

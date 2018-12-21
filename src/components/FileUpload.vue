@@ -1,28 +1,14 @@
 <template>
-    <div id="fileUploader" class="container">
-        <div class="row">
-            <vue-upload
-                    class="file-uploader"
-                    extensions="srt"
-                    accept="*"
-                    @input-filter="inputFilter"
-                    @input-file="inputFile"
-                    ref="vueUpload">
-                <i class="fa fa-plus"></i>
-                Select file
-                <br/>
-                Support format: .srt
-            </vue-upload>
-
-            <button class="waves-effect waves-light btn" id="btn_demo" @click="loadDemo">Demo</button>
-        </div>
+    <div id="app">
+        <drop-zone id="drop-zone" v-on:fileUploaded="onFileUpload"></drop-zone>
+        <button id="btn_demo" @click="loadDemo">Load Demo</button>
     </div>
 </template>
 
 <script>
     import {loadFile} from '../classes/FileLoader';
+    import DropZone from './DropZone';
 
-    import VueUpload from 'vue-upload-component';
     import * as parser from "subtitles-parser";
 
     /**
@@ -31,7 +17,7 @@
      */
     export default {
         name: "FileUpload",
-        components: {VueUpload},
+        components: {DropZone},
         methods: {
             loadDemo() {
                 const self = this;
@@ -63,16 +49,16 @@
                 }
             }
             ,
-            inputFile(newFile, oldFile) {
-                if (newFile && !oldFile) {
-                    // add
-                    const self = this;
-                    loadFile(newFile.file).then(function (data) {
-                        self.$emit('scriptLoaded', data);
-                    }).catch(function (err) {
-                        alert(err);
-                    });
-                }
+            onFileUpload(newFile) {
+                newFile = newFile[0];
+                console.log(newFile);
+                // add
+                const self = this;
+                loadFile(newFile).then(function (data) {
+                    self.$emit('scriptLoaded', data);
+                }).catch(function (err) {
+                    alert(err);
+                });
             }
         }
     };
@@ -81,20 +67,31 @@
 <style scoped lang="scss">
     @import "../sass/color-pattern-night";
 
-    #fileUploader {
-        .file-uploader {
-            padding: 20px;
-            border-radius: 15px;
-            background: #21308e;
+    #app {
+        #drop-zone {
+            position: relative;
+            display: inline-block;
 
-            cursor: pointer;
+            margin: 10px;
+
+            width: 150px;
+            height: 100px;
         }
 
         #btn_demo {
-            margin: 0 0 0 20px;
+            position: relative;
+            top: -63px;
+
+            cursor: pointer;
+
+            margin: 10px;
+
+            width: 50px;
+            height: 100px;
+
             border: 0;
             border-radius: 15px;
-            background: #21308e;
+            background: #303F9F;
             color: white;
         }
     }
