@@ -1,22 +1,19 @@
 <template>
     <!--emit fileUploaded event open file received-->
     <div id="app">
-        <div id="cover" class="full-size"
-             v-on:dragenter.prevent.stop="handleDragEnter"
-             v-on:dragleave.prevent.stop="handleDragLeave"
-             v-on:dragover.prevent.stop="handleDragOver"
-             v-on:drop.prevent.stop="handleDrop"
-             v-on:click="promptSelectFile"
-        ></div>
+        <div id="cover-fullscreen"
+             v-on:drop.stop.prevent="handleDrop"
+             v-on:dragover.stop.prevent
+             v-show="promptDrop">
+            release to drop your file
+        </div>
 
         <div id="drop-zone" class="full-size"
+             v-on:click="promptSelectFile"
              v-bind:style="styleObjectApp"
         >
             <!--icon-->
             <div id="div-prompt" class="full-size">
-                <div id="border" class="full-size"
-                     v-bind:class="{promptDropClass:promptDrop}"
-                ></div>
                 <component id="area-icon" v-bind:is="currentComponent"></component>
             </div>
 
@@ -39,26 +36,44 @@
             IconInit,
             IconSelected
         },
+        mounted() {
+            const self = this;
+            let lastTarget = null;
+            window.addEventListener("dragenter", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                lastTarget = e.target; // cache the last target here
+
+                self.handleDragEnter();
+            });
+
+            window.addEventListener("dragleave", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                // this is the magic part. when leaving the window,
+                // e.target happens to be exactly what we want: what we cached
+                // at the start, the dropzone we dragged into.
+                // so..if dragleave target matches our cache, we hide the dropzone.
+                if (e.target === lastTarget || e.target === document) {
+                    self.handleDragLeave();
+                }
+            });
+        },
         data: function () {
             return {
                 fileLoaded: null,
                 promptDrop: false,
-                style: {
-                    color: {
-                        "init": "#303F9F",
-                        "drop": "#FFA000",
-                        "loaded": "#689F38"
-                    },
-                    borderThickness: 10
+                color: {
+                    "init": "#303F9F",
+                    "drop": "#FFA000",
+                    "loaded": "#689F38"
                 }
             }
         },
         computed: {
             currentState: function () {
-                if (this.promptDrop) {
-                    return "drop";
-                }
-
                 if (this.fileLoaded !== null) {
                     return "loaded";
                 }
@@ -66,12 +81,10 @@
                 return "init";
             },
             styleObjectApp: function () {
-                const style = this.style;
-
                 let state = this.currentState;
 
                 return {
-                    "background-color": `${style.color[state]}`
+                    "background-color": `${this.color[state]}`
                 }
             },
             currentComponent: function () {
@@ -144,19 +157,24 @@
         height: 100%;
     }
 
+    #cover-fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+
+        line-height: 100vh;
+        font-size: 3.5em;
+
+        background-color: rgba(78, 78, 78, 0.9);
+        border: 15px dashed #707070;
+    }
+
     #app {
         position: relative;
-
-        /*the coverup div*/
-        #cover {
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            z-index: 2;
-            cursor: pointer;
-        }
-
 
         /*the actual div that displays all the stuff*/
         #drop-zone {
@@ -177,19 +195,16 @@
                 }
             }
 
+            transition: background-color 400ms linear;
+
+            cursor: pointer;
+
             position: absolute;
             top: 0;
             left: 0;
 
-            z-index: 1;
-
             box-sizing: border-box;
             border-radius: 20px;
-        }
-
-        /* style after dragEnter */
-        .promptDropClass {
-            border: 5px dashed #707070;
         }
     }
 </style>
