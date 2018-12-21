@@ -32,26 +32,8 @@
                     });
                 });
             },
-            inputFilter(newFile, oldFile, prevent) {
-                if (newFile && !oldFile) {
-                    // Before adding a file
-                    // 添加文件前
-                    // Filter system files or hide files
-                    // 过滤系统文件 和隐藏文件
-                    if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
-                        return prevent()
-                    }
-                    // Filter php html js file
-                    // 过滤 php html js 文件
-                    if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
-                        return prevent()
-                    }
-                }
-            }
-            ,
             onFileUpload(newFile) {
                 newFile = newFile[0];
-                console.log(newFile);
                 // add
                 const self = this;
                 loadFile(newFile).then(function (data) {

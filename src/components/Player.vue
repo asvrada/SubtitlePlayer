@@ -48,7 +48,7 @@
             </button>
         </div>
 
-        <div class="row center" id="area-subtitles">
+        <div class="row" id="area-subtitles">
             <div id="subtitle-wrapper">
                 <p>{{player.curScript ? player.curScript.text : ""}}</p>
                 <!--todo-->
