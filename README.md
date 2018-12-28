@@ -5,6 +5,4 @@
 ### Todo
 2. Support modifier in subtitle like \<i\>
 3. Load script from URL
-
-### Bugs:
-1. Two buttons won't fit in one line
+4. DropZone should validate type of file
