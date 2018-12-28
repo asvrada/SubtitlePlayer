@@ -1,7 +1,7 @@
 <template>
     <div id="player" v-show="player.state !== 'EMPTY'">
         <!--status bar-->
-        <div class="row" id="area-title">Playing: <span> {{ title }} </span></div>
+        <div class="row" id="area-title">PLAYING: <span> {{ title }} </span></div>
 
         <!--area for time display-->
         <div class="row" id="area-time">
@@ -9,23 +9,23 @@
                 <!-- Format:
                 hh:mm:ss,mmm / hh:mm:ss,mmm
                 -->
-                <div id="timestamp" v-on:dblclick="dbClickTimestamp">
-                    <i id="btn_set_timestamp" @click="dbClickTimestamp" class="fas fa-sliders-h"></i>
+                <div id="timestamp" v-on:dblclick="handleDoubleClickTimestamp">
+                    <i id="btn_set_timestamp" @click="handleDoubleClickTimestamp" class="fas fa-sliders-h"></i>
                     {{ cur_hour }}:{{ cur_min }}{{time_indicator}}{{ cur_sec }}
                     / {{ max_hour }}:{{ max_min }}:{{ max_sec }}
                 </div>
 
-                <div id="edit-timestamp" v-show="userEditing">
+                <div id="edit-timestamp" v-show="showTimeInput">
                     <p>Input Format: <span class="timeformat">hh:mm:ss</span> or <span class="timeformat">mm:ss</span>
                     </p>
                     <input id="time-input"
                            placeholder="hh:mm:ss"
-                           v-model="editTimestamp"
-                           v-on:keyup.enter="submitTimestamp"
-                           v-on:keyup.esc="dbClickTimestamp">
+                           v-model="modelTimestamp"
+                           v-on:keydown.enter="submitTimestamp"
+                           v-on:keydown.esc="handleDoubleClickTimestamp">
                     <div>
                         <button id="btn_jumpto" class="btn" v-on:click="submitTimestamp">Jump to</button>
-                        <button id="btn_cancel" class="btn" v-on:click="dbClickTimestamp">Cancel</button>
+                        <button id="btn_cancel" class="btn" v-on:click="handleDoubleClickTimestamp">Cancel</button>
                     </div>
                 </div>
 
@@ -66,18 +66,25 @@
         name: "Player",
         props: ["scripts"],
         watch: {
-            // watch it
+            // when change
             scripts: function ({scripts, name}) {
                 this.player.load(scripts);
                 this.title = name;
             }
         },
+        mounted() {
+            const self = this;
+
+            window.addEventListener("keydown", function (e) {
+                self.handleKeydown(e);
+            })
+        },
         data: function () {
             return {
                 title: "",
                 player: new Player(),
-                userEditing: false,
-                editTimestamp: "",
+                showTimeInput: false,
+                modelTimestamp: "",
                 currentCursor: 0,
                 // number of values for <input range>
                 sliderStep: 500
@@ -90,34 +97,73 @@
             pause() {
                 this.player.pause();
             },
-            dbClickTimestamp() {
+            handleKeydown(e) {
+                // when user try to type something into the <input> field, ignore
+                if (this.showTimeInput) {
+                    return
+                }
+
+                const key = e.key;
+                const acceptKey = [" ", "ArrowLeft", "ArrowRight"];
+
+                // if not what keypress that we are interested, ignore
+                if (!acceptKey.includes(key)) {
+                    return;
+                }
+
+                const self = this;
+
+                const table = {
+                    " ": () => {
+                        // toggle play/pause
+                        if (self.player.state === "PAUSE") {
+                            self.play();
+                        } else if (self.player.state === "PLAYING") {
+                            self.pause();
+                        }
+                    },
+                    "ArrowLeft": () => {
+                        // todo: rewind by 1 second
+                    },
+                    "ArrowRight": () => {
+                        // todo: advance by 1 second
+                    }
+                };
+
+                table[key]();
+
+                // finally, stop default behavior
+                e.stopPropagation();
+                e.preventDefault();
+            },
+            handleDoubleClickTimestamp() {
                 // 仅当该区域由隐藏变为显示时，运行以下代码
-                if (!this.userEditing) {
+                if (!this.showTimeInput) {
                     // 状态变为暂停
                     this.pause();
                     // 将当前时间写入input
-                    this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
+                    this.modelTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
                 }
 
                 // toggle 输入区域
-                this.userEditing = !this.userEditing;
+                this.showTimeInput = !this.showTimeInput;
             },
             submitTimestamp() {
-                const userInput = this.editTimestamp;
+                const userInput = this.modelTimestamp;
 
                 // [hh:]mm:ss[,mmm]
                 const reTimeStamp = /^(?:(\d{0,2}):)?(\d{0,2}):(\d{0,2})(?:,(\d{0,3}))?$/;
                 let match = reTimeStamp.exec(userInput);
                 if (match === null) {
                     // 重新将当前时间写入input
-                    this.editTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
+                    this.modelTimestamp = this.cur_hour + ':' + this.cur_min + ':' + this.cur_sec;
 
                     alert(`Un-acceptable input format: ${userInput}\nPlease fix and try again`);
                     return;
                 }
 
                 // 跳转到用户输入的时间
-                this.userEditing = false;
+                this.showTimeInput = false;
                 this.player.pause();
 
                 const cur = j.convertToMillisec(match[1], match[2], match[3], match[4]);
@@ -236,8 +282,11 @@
             }
 
             #edit-timestamp {
+                display: inline-block;
+
                 border-radius: 30px;
-                padding: 1em;
+                padding: 20px;
+                margin: 10px;
                 background: $primary-color-dark;
 
                 #time-input {
@@ -262,8 +311,9 @@
             }
 
             #range-input {
+                max-width: 800px;
 
-                margin: 20px 0;
+                margin: 20px auto;
 
                 .slider {
                     border: 0;
