@@ -9,7 +9,6 @@
     "push": "node push-to-gh-page.js"
   },
   "dependencies": {
-    "iconv-lite": "^0.4.24",
     "jschardet": "^1.6.0",
     "subtitles-parser": "^0.0.2",
     "vue": "^2.5.13"

@@ -49,7 +49,7 @@
         </div>
 
         <div class="row" id="area-subtitles">
-            <div id="subtitle-wrapper">
+            <div id="subtitle-wrapper" v-show="!!player.curScript">
                 <p>{{player.curScript ? player.curScript.text : ""}}</p>
                 <!--todo-->
                 <!--<p>{{ subtitle }}</p>-->
@@ -318,13 +318,15 @@
                 text-align: center;
 
                 p {
+                    display: inline-block;
+
+                    padding: 10px;
                     border-radius: 10px;
                     background-color: rgba(128, 128, 128, 0.2);
                     font-size: 2em;
                     margin: 0;
                 }
             }
-
         }
     }
 </style>
