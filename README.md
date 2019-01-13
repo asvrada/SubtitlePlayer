@@ -39,3 +39,7 @@ yarn run build
 4. DropZone should validate type of file
 1. add keyboard support
     2. left/right arrow key: move time backward/forward
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
