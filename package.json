@@ -5,8 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "push": "node push-to-gh-page.js"
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "jschardet": "^2.1.0",
@@ -17,7 +16,6 @@
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
-    "fs-extra": "^8.1.0",
     "gh-pages": "^2.1.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",

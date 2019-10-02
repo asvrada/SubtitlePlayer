@@ -32,7 +32,7 @@
                 <!--time slider-->
                 <div id="range-input">
                     <input class="slider" type="range" min="0" v-bind:max="slider_max_val"
-                           v-model:value="sliderCurComputed"
+                           v-model="sliderCurComputed"
                            v-on:input="onSliderInput" v-on:change="onSliderChange">
                 </div>
             </div>
@@ -215,6 +215,8 @@
                 const interval = 500;
                 return Math.floor(this.player.cur % (2 * interval) / interval) ? " " : ":";
             },
+            // Convert between string (what the input HTML element displays)
+            // and int (what this project used to represent time)
             sliderCurComputed: {
                 get() {
                     const maxTimeRange = this.player.maxMillSec;
