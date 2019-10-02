@@ -9,19 +9,19 @@
     "push": "node push-to-gh-page.js"
   },
   "dependencies": {
-    "jschardet": "^1.6.0",
+    "jschardet": "^2.1.0",
     "subtitles-parser": "^0.0.2",
-    "vue": "^2.5.13"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
-    "@vue/cli-plugin-eslint": "^3.0.0-beta.6",
-    "@vue/cli-service": "^3.0.0-beta.6",
-    "fs-extra": "^5.0.0",
-    "gh-pages": "^1.1.0",
-    "node-sass": "^4.8.3",
-    "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.13"
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "fs-extra": "^8.1.0",
+    "gh-pages": "^2.1.1",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "babel": {
     "presets": [
