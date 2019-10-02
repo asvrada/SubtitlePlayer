@@ -102,9 +102,6 @@
             handleDragLeave() {
                 this.promptDrop = false;
             },
-            handleDragOver(e) {
-                // we don't need this ...
-            },
             handleDrop(e) {
                 let files = null;
 
@@ -113,7 +110,7 @@
                     files = dt.files;
                 } catch (e) {
                     alert("There was a problem processing your file, please try again");
-                    console.log("Error drag & drop file", e)
+                    // console.log("Error drag & drop file", e)
                 }
 
                 this.handleFiles(files);
@@ -126,7 +123,7 @@
                     files = dt.files;
                 } catch (e) {
                     alert("There was a problem processing your file, please try again");
-                    console.log("Error input file", e)
+                    // console.log("Error input file", e)
                 }
 
                 this.handleFiles(files);
