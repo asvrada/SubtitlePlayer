@@ -1,14 +1,14 @@
 export default {
     /**
      * 填充一定数量的前置0
-     * @param val
-     * @param length
+     * @param num
+     * @param size: size of the zero-padded string
      * @returns {string}
      */
-    padZero: function (val, length = 0) {
-        let str = "" + val;
-        let pad = new Array(length + 1).join('0');
-        return pad.substring(0, pad.length - str.length) + str;
+    padZero: function (num, size = 0) {
+        num = num.toString();
+        while (num.length < size) num = '0' + num;
+        return num;
     },
 
     /**
@@ -45,5 +45,5 @@ export default {
     },
     getMilliseconds: function (millsec) {
         return millsec % 1000;
-    }
+    },
 };

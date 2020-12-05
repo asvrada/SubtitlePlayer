@@ -1,4 +1,6 @@
-# Subtitle Player
+# 字幕播放器 Subtitle Player
+
+一个能够单独播放电影字幕(仅支持.srt格式)的网页app。
 
 A subtitle player in your browser. Able to play .srt subtitle file standalone without videoes. 
 
@@ -34,11 +36,8 @@ yarn run build
 ```
 
 ## Todo
+1. Support subtitle with incorrect timestamp
 2. Support modifier in subtitle like \<i\>
-3. Load script from URL
-4. DropZone should validate type of file
-1. add keyboard support
-    2. left/right arrow key: move time backward/forward
 
 ## License
 
